@@ -1,1 +1,1 @@
-::: hazm.bijankhan_reader
+::: hazm.BijankhanReader

@@ -1,1 +1,1 @@
-::: hazm.miras_text_reader
+::: hazm.MirasTextReader

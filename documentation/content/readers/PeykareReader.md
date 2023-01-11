@@ -1,1 +1,1 @@
-::: hazm.peykare_reader
+::: hazm.PeykareReader

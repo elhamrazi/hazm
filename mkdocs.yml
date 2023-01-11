@@ -73,34 +73,34 @@ nav:
     - معرفی و نصب: index.md
     - کلاس‌ها و توابع:
           - content/modules/index.md
-          - content/modules/normalizer.md
-          - content/modules/informal_normalizer.md
-          - content/modules/stemmer.md
-          - content/modules/lemmatizer.md
-          - content/modules/sentence_tokenizer.md
-          - content/modules/word_tokenizer.md
-          - content/modules/embedding.md
-          - content/modules/sequence_tagger.md
-          - content/modules/token_splitter.md
-          - content/modules/chunker.md
-          - content/modules/pos_tagger.md
-          - content/modules/dependency_parser.md
+          - content/modules/Normalizer.md
+          - content/modules/InformalNormalizer.md
+          - content/modules/Stemmer.md
+          - content/modules/Lemmatizer.md
+          - content/modules/SentenceTokenizer.md
+          - content/modules/WordTokenizer.md
+          - content/modules/Embedding.md
+          - content/modules/SequenceTagger.md
+          - content/modules/TokenSplitter.md
+          - content/modules/Chunker.md
+          - content/modules/POSTagger.md
+          - content/modules/DependencyParser.md
           - content/utils.md
           - پیکره‌خوان‌ها:
                 - content/readers/index.md
-                - content/readers/miras_text_reader.md
-                - content/readers/bijankhan_reader.md
-                - content/readers/dadegan_reader.md
-                - content/readers/degarbayan_reader.md
-                - content/readers/hamshahri_reader.md
-                - content/readers/persica_reader.md
-                - content/readers/peykare_reader.md
-                - content/readers/quran_corpus_reader.md
-                - content/readers/senti_pers_reader.md
-                - content/readers/tnews_reader.md
-                - content/readers/treebank_reader.md
-                - content/readers/verb_valency_reader.md
-                - content/readers/wikipedia_reader.md
+                - content/readers/MirasTextReader.md
+                - content/readers/BijankhanReader.md
+                - content/readers/DadeganReader.md
+                - content/readers/DegarbayanReader.md
+                - content/readers/HamshahriReader.md
+                - content/readers/PersicaReader.md
+                - content/readers/PeykareReader.md
+                - content/readers/QuranCorpusReader.md
+                - content/readers/SentiPersReader.md
+                - content/readers/TNewsReader.md
+                - content/readers/TreebankReader.md
+                - content/readers/VerbValencyReader.md
+                - content/readers/WikipediaReader.md
     - سایر بخش‌ها:
           - هضم در زبان‌های دیگر: content/in-other-languages.md
 

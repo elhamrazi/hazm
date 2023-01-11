@@ -2,7 +2,7 @@
 
 """این ماژول شامل کلاس‌ها و توابعی برای ریشه‌یابی کلمات است. 
 
-فرق بین [lemmatizer](./lemmatizer.md) و [stemmer](./stemmer.md) این است که
+فرق بین [Lemmatizer](./Lemmatizer.md) و [Stemmer](./Stemmer.md) این است که
 اِستمر درکی از معنای کلمه ندارد و صرفاً براساس حذف برخی از پسوندهای ساده تلاش
 می‌کند ریشهٔ کلمه را بیابد؛ بنابراین ممکن است در ریشه‌یابیِ برخی از کلمات نتایج
 نادرستی ارائه دهد؛ اما لماتایزر براساس لیستی از کلمات مرجع به همراه ریشهٔ آن این
@@ -12,11 +12,11 @@
 
 from __future__ import unicode_literals
 from .utils import default_words, default_verbs
-from .stemmer import stemmer
-from .word_tokenizer import word_tokenizer
+from .Stemmer import Stemmer
+from .WordTokenizer import WordTokenizer
 
 
-class lemmatizer(object):	
+class Lemmatizer(object):	
 	"""این کلاس شامل توابعی برای ریشه‌یابی کلمات است.
 
 	Args:
@@ -32,9 +32,9 @@ class lemmatizer(object):
 
 	def __init__(self, words_file=default_words, verbs_file=default_verbs):			
 		self.verbs = {}
-		self.stemmer = stemmer()
+		self.stemmer = Stemmer()
 
-		tokenizer = word_tokenizer(words_file=default_words, verbs_file=verbs_file)
+		tokenizer = WordTokenizer(words_file=default_words, verbs_file=verbs_file)
 		self.words = tokenizer.words
 
 		if verbs_file:
@@ -52,7 +52,7 @@ class lemmatizer(object):
 		همین واژه در جایگاه اسم (اجتماعی از مردم)، ریشه‌اش می‌شود «اجتماع».
 
 		Examples:
-			>>> lemmatizer = lemmatizer()
+			>>> lemmatizer = Lemmatizer()
 			>>> lemmatizer.lemmatize('کتاب‌ها')
 			'کتاب'
 			>>> lemmatizer.lemmatize('آتشفشان')
@@ -100,7 +100,7 @@ class lemmatizer(object):
 		"""صورت‌های صرفی فعل را برمی‌گرداند.
 
 		Examples:
-			>>> lemmatizer = lemmatizer()
+			>>> lemmatizer = Lemmatizer()
 			>>> lemmatizer.conjugations('خورد#خور')
 			['خوردم', 'خوردی', 'خورد', 'خوردیم', 'خوردید', 'خوردند', 'نخوردم', 'نخوردی', 'نخورد', 'نخوردیم', 'نخوردید', 'نخوردند', 'خورم', 'خوری', 'خورد', 'خوریم', 'خورید', 'خورند', 'نخورم', 'نخوری', 'نخورد', 'نخوریم', 'نخورید', 'نخورند', 'می‌خوردم', 'می‌خوردی', 'می‌خورد', 'می‌خوردیم', 'می‌خوردید', 'می‌خوردند', 'نمی‌خوردم', 'نمی‌خوردی', 'نمی‌خورد', 'نمی‌خوردیم', 'نمی‌خوردید', 'نمی‌خوردند', 'خورده‌ام', 'خورده‌ای', 'خورده', 'خورده‌ایم', 'خورده‌اید', 'خورده‌اند', 'نخورده‌ام', 'نخورده‌ای', 'نخورده', 'نخورده‌ایم', 'نخورده‌اید', 'نخورده‌اند', 'خورم', 'خوری', 'خورد', 'خوریم', 'خورید', 'خورند', 'نخورم', 'نخوری', 'نخورد', 'نخوریم', 'نخورید', 'نخورند', 'می‌خورم', 'می‌خوری', 'می‌خورد', 'می‌خوریم', 'می‌خورید', 'می‌خورند', 'نمی‌خورم', 'نمی‌خوری', 'نمی‌خورد', 'نمی‌خوریم', 'نمی‌خورید', 'نمی‌خورند', 'بخورم', 'بخوری', 'بخورد', 'بخوریم', 'بخورید', 'بخورند', 'نخورم', 'نخوری', 'نخورد', 'نخوریم', 'نخورید', 'نخورند', 'بخور', 'نخور']
 			>>> lemmatizer.conjugations('آورد#آور')

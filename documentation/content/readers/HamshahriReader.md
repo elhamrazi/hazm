@@ -1,1 +1,1 @@
-::: hazm.hamshahri_reader
+::: hazm.HamshahriReader

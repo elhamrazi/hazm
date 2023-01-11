@@ -64,38 +64,38 @@ from hazm import *
 from hazm import *
 
 # Transform a text into a standard form.
-print(normalizer().normalize("چه گل های زیبایی."))
+print(Normalizer().normalize("چه گل های زیبایی."))
 # چه گل‌های زیبایی
 
 # Extract the root of word (more speed, less accuracy).
-print(stemmer().stem("کتاب‌هایشان"))
+print(Stemmer().stem("کتاب‌هایشان"))
 # کتاب
 
 # Extract the root of word (more accuracy, less speed).
-print(lemmatizer().lemmatize("می‌روم"))
+print(Lemmatizer().lemmatize("می‌روم"))
 # رفت#رو
 
 # Split text into individual sentences.
-print(sentence_tokenizer().tokenize("بسیار خوشحال بود! پرسید، چرا دیروز نیامدی ؟"))
+print(SentenceTokenizer().tokenize("بسیار خوشحال بود! پرسید، چرا دیروز نیامدی ؟"))
 # ['پرسید، چرا دیروز نیامدی ؟','! بسیار خوشحال بود']
 
 # Split text into individual words.
-print(word_tokenizer().tokenize("پرسید، چرا دیروز نیامدی؟"))
+print(WordTokenizer().tokenize("پرسید، چرا دیروز نیامدی؟"))
 # ['پرسید', '،', 'چرا', 'دیروز', 'نیامدی', '؟']
 
 # Assigns parts of speech to each word, such as noun, verb, adjective, etc.
-tagger = pos_tagger(model='resources/postagger.model')
-print(tagger.tag(word_tokenizer().tokenize("ما بسیار کتاب می‌خوانیم")))
+tagger = POSTagger(model='resources/postagger.model')
+print(tagger.tag(WordTokenizer().tokenize("ما بسیار کتاب می‌خوانیم")))
 # [('ما', 'PRO'), ('بسیار', 'ADV'), ('کتاب', 'N'), ('می‌خوانیم', 'V')]
 
 # Segments a sentence into its subconstituents, such as noun (NP), verb (VP), etc.
-chunker = chunker(model='resources/chunker.model')
+chunker = Chunker(model='resources/chunker.model')
 tagged = tagger.tag(word_tokenize('کتاب خواندن را دوست داریم'))
 tree2brackets(chunker.parse(tagged))
 # '[کتاب خواندن NP] [را POSTP] [دوست داریم VP]'
 
 # Identify semantic relations between words in a sentence.
-parser = dependency_parser(tagger=tagger, lemmatizer=lemmatizer)
+parser = DependencyParser(tagger=tagger, lemmatizer=lemmatizer)
 parser.parse(word_tokenize('زنگ‌ها برای که به صدا درمی‌آید؟'))
 # <DependencyGraph with 8 nodes>
 ```

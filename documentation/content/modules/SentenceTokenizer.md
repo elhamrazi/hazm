@@ -1,1 +1,1 @@
-::: hazm.sentence_tokenizer
+::: hazm.SentenceTokenizer

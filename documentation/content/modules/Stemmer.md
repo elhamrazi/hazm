@@ -1,1 +1,1 @@
-::: hazm.stemmer
+::: hazm.Stemmer

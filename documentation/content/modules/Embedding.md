@@ -1,1 +1,1 @@
-::: hazm.embedding
+::: hazm.Embedding

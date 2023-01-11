@@ -1,1 +1,1 @@
-::: hazm.tnews_reader
+::: hazm.TNewsReader

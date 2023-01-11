@@ -7,14 +7,14 @@
 
 from __future__ import unicode_literals
 from nltk.chunk import ChunkParserI, RegexpParser, tree2conlltags, conlltags2tree
-from .sequence_tagger import IOBTagger
+from .SequenceTagger import IOBTagger
 
 
 def tree2brackets(tree):
-	"""خروجی درختی تابع [parse()][hazm.chunker.chunker.parse] را به یک ساختار کروشه‌ای تبدیل می‌کند.
+	"""خروجی درختی تابع [parse()][hazm.Chunker.Chunker.parse] را به یک ساختار کروشه‌ای تبدیل می‌کند.
 
 	Examples:
-		>>> chunker = chunker(model='resources/chunker.model')
+		>>> chunker = Chunker(model='resources/chunker.model')
 		>>> tree=chunker.parse([('نامه', 'Ne'), ('ایشان', 'PRO'), ('را', 'POSTP'), ('دریافت', 'N'), ('داشتم', 'V'), ('.', 'PUNC')])
 		'(S
 		  (NP نامه/Ne ایشان/PRO)
@@ -48,7 +48,7 @@ def tree2brackets(tree):
 	return str.strip()
 
 
-class chunker(IOBTagger, ChunkParserI):
+class Chunker(IOBTagger, ChunkParserI):
 	"""این کلاس شامل توابعی برای تقطیع متن، آموزش و ارزیابی مدل است.
 	"""
 
@@ -58,13 +58,13 @@ class chunker(IOBTagger, ChunkParserI):
 		Args:
 			trees (List[Tree]): لیستی از درخت‌ها برای آموزش مدل.
 		"""		
-		super(chunker, self).train(map(tree2conlltags, trees))
+		super(Chunker, self).train(map(tree2conlltags, trees))
 
 	def parse(self, sentence):
 		"""جمله‌ای را در قالب لیستی از تاپل‌های دوتایی [(توکن, نوع), (توکن, نوع), ...] دریافت می‌کند و درخت تقطع‌شدهٔ آن را بر می‌گرداند.
 
 		Examples:
-			>>> chunker = chunker(model='resources/chunker.model')
+			>>> chunker = Chunker(model='resources/chunker.model')
 			>>> tree=chunker.parse([('نامه', 'Ne'), ('ایشان', 'PRO'), ('را', 'POSTP'), ('دریافت', 'N'), ('داشتم', 'V'), ('.', 'PUNC')])
 			'(S
 			  (NP نامه/Ne ایشان/PRO)
@@ -91,7 +91,7 @@ class chunker(IOBTagger, ChunkParserI):
 		Yields:
 			(Iterator[str]): یک `Iterator` از جملات تقطیع شده.
 		"""		
-		for conlltagged in super(chunker, self).tag_sents(sentences):
+		for conlltagged in super(Chunker, self).tag_sents(sentences):
 			yield conlltags2tree(conlltagged)
 
 	def evaluate(self, gold):
@@ -106,10 +106,10 @@ class chunker(IOBTagger, ChunkParserI):
 		return ChunkParserI.evaluate(self, gold)
 
 
-class RuleBasedchunker(RegexpParser):
+class RuleBasedChunker(RegexpParser):
 	"""	
 	Examples:
-		>>> chunker = RuleBasedchunker()
+		>>> chunker = RuleBasedChunker()
 		>>> tree2brackets(chunker.parse([('نامه', 'Ne'), ('۱۰', 'NUMe'), ('فوریه', 'Ne'), ('شما', 'PRO'), ('را', 'POSTP'), ('دریافت', 'N'), ('داشتم', 'V'), ('.', 'PUNC')]))
 		'[نامه ۱۰ فوریه شما NP] [را POSTP] [دریافت داشتم VP] .'
 	"""
@@ -145,4 +145,4 @@ class RuleBasedchunker(RegexpParser):
 
 		"""
 
-		super(RuleBasedchunker, self).__init__(grammar=grammar)
+		super(RuleBasedChunker, self).__init__(grammar=grammar)

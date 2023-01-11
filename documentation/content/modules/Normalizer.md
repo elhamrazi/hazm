@@ -1,3 +1,3 @@
-::: hazm.normalizer
+::: hazm.Normalizer
 
 
