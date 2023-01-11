@@ -35,22 +35,22 @@ class InformalNormalizer(Normalizer):
 		self.word_tokenizer = WordTokenizer()
 
 		with codecs.open(verb_file, encoding='utf8') as vf:
-			self.pastVerbs = {}
-			self.presentVerbs = {}
+			self.past_verbs = {}
+			self.present_verbs = {}
 			for f, i, flag in map(lambda x: x.strip().split(' ', 2), vf):
-				splitedF = f.split("#")
-				self.presentVerbs.update(
-					{i: splitedF[1]}
+				splited_f = f.split("#")
+				self.present_verbs.update(
+					{i: splited_f[1]}
 				)
-				self.pastVerbs.update(
-					{splitedF[0]: splitedF[0]}
+				self.past_verbs.update(
+					{splited_f[0]: splited_f[0]}
 				)
 		with codecs.open(default_verbs, encoding='utf8') as vf:
 			for f, i in map(lambda x: x.strip().split('#', 2), vf):
-				self.presentVerbs.update(
+				self.present_verbs.update(
 					{i:i}
 				)
-				self.pastVerbs.update(
+				self.past_verbs.update(
 					{f: f}
 				)
 
@@ -166,7 +166,7 @@ class InformalNormalizer(Normalizer):
 			endWordsList = ["هاست", "هایی", "هایم", "ترین", "ایی", "انی", "شان", "شون", "است", "تان", "تون", "مان", "مون",
 									  "هام", "هاش", "های", "طور", "ها", "تر", "ئی", "یی", "یم", "ام", "ای", "ان", "هم", "رو", "یت", "ه", "ی", "ش", "و", "ا", "ت", "م"]
 
-			returnList = []
+			return_list = []
 
 			collectionOfWordAndSuffix = []
 
@@ -189,7 +189,7 @@ class InformalNormalizer(Normalizer):
 				if word in self.iword_map:
 					collectionOfWordAndSuffix.append(
 						{
-							"word": self.iword_map[word],
+							"word": selsliceWordf.iword_map[word],
 							"suffix": []
 						}
 					)
@@ -198,46 +198,46 @@ class InformalNormalizer(Normalizer):
 			if not FoundEarly:
 				for endWord in endWordsList:
 					if word.endswith(endWord):
-						sliceWord = word[:-1 * len(endWord)]
-						if sliceWord in self.lemmatizer.words or sliceWord in self.iword_map:
-							if sliceWord in self.lemmatizer.words:
+						slice_word = word[:-1 * len(endWord)]
+						if slice_word in self.lemmatizer.words or slice_word in self.iword_map:
+							if slice_word in self.lemmatizer.words:
 								collectionOfWordAndSuffix.append(
 									{
-										"word": sliceWord,
+										"word": slice_word,
 										"suffix": [endWord]
 									}
 								)
-							if sliceWord in self.iword_map:
+							if slice_word in self.iword_map:
 								collectionOfWordAndSuffix.append(
 									{
-										"word": self.iword_map[sliceWord],
+										"word": self.iword_map[slice_word],
 										"suffix": [endWord]
 									}
 								)
 						else:
-							midWordCondidate.append(sliceWord)
+							midWordCondidate.append(slice_word)
 							midWordCondidate.append([endWord])
 
 				for endWord in endWordsList:
 					for i in range(len(midWordCondidate) - 1):
 						if i % 2 == 1:
 							continue
-						midWord = midWordCondidate[i]
+						mid_word = midWordCondidate[i]
 						midWordEndWordList = midWordCondidate[i + 1]
-						if midWord.endswith(endWord):
-							sliceWord = midWord[:-1 * len(endWord)]
-							if sliceWord in self.lemmatizer.words or sliceWord in self.iword_map:
-								if sliceWord in self.lemmatizer.words:
+						if mid_word.endswith(endWord):
+							slice_word = mid_word[:-1 * len(endWord)]
+							if slice_word in self.lemmatizer.words or slice_word in self.iword_map:
+								if slice_word in self.lemmatizer.words:
 									collectionOfWordAndSuffix.append(
 										{
-											"word": sliceWord,
+											"word": slice_word,
 											"suffix": [endWord] + midWordEndWordList
 										}
 									)
-								if sliceWord in self.iword_map:
+								if slice_word in self.iword_map:
 									collectionOfWordAndSuffix.append(
 										{
-											"word": self.iword_map[sliceWord],
+											"word": self.iword_map[slice_word],
 											"suffix": [endWord] + midWordEndWordList
 										}
 									)
@@ -246,15 +246,15 @@ class InformalNormalizer(Normalizer):
 				newPossibelWordList = append_suffix_to_word(collectionOfWordAndSuffix[i])
 				for j in range(len(newPossibelWordList)):
 					newPossibelWord = newPossibelWordList[j]
-					if newPossibelWord not in returnList:
-						returnList.append(newPossibelWord)
+					if newPossibelWord not in return_list:
+						return_list.append(newPossibelWord)
 
-			return returnList
+			return return_list
 
 		def analyze_verb_word(word):
 
-			if word in self.pastVerbs:
-				word = self.pastVerbs[word]
+			if word in self.past_verbs:
+				word = self.past_verbs[word]
 				return [word]
 
 			if word in self.iword_map:
@@ -266,20 +266,20 @@ class InformalNormalizer(Normalizer):
 				else:
 					return []
 
-			returnList = []
+			return_list = []
 
 			collectionOfVerbList = []
 
 			endVerbList = ["یم", "دم", "دیم", "ید", "دی", "دید", "ند", "دن", "دند", "ین", "دین", "ست", "ستم", "ستی", "ستیم", "ستید", "ستند", "م", "ی", "ه", "د", "ن"]
 
-			for endVerb in endVerbList:
-				if word.endswith(endVerb):
-					if endVerb == "ین":
+			for end_verb in endVerbList:
+				if word.endswith(end_verb):
+					if end_verb == "ین":
 						collectionOfVerbList.append({
 							"word": word[:-2],
 							"suffix": "ید"
 						})
-					elif endVerb == "ن":
+					elif end_verb == "ن":
 						collectionOfVerbList.append({
 							"word": word[:-1],
 							"suffix": "ن"
@@ -288,7 +288,7 @@ class InformalNormalizer(Normalizer):
 							"word": word[:-1],
 							"suffix": "ند"
 						})
-					elif endVerb == "ه":
+					elif end_verb == "ه":
 						if len(word) > 1:
 							if word[-2] != "د":
 								collectionOfVerbList.append({
@@ -306,8 +306,8 @@ class InformalNormalizer(Normalizer):
 							})
 					else:
 						collectionOfVerbList.append({
-							"word": word[:-1 * len(endVerb)],
-							"suffix": endVerb
+							"word": word[:-1 * len(end_verb)],
+							"suffix": end_verb
 						})
 			collectionOfVerbList.append({
 				"word": word,
@@ -315,60 +315,60 @@ class InformalNormalizer(Normalizer):
 			})
 			collectionOfVerbList2 = []
 			for i in range(len(collectionOfVerbList)):
-				mainWord = collectionOfVerbList[i]["word"]
+				main_word = collectionOfVerbList[i]["word"]
 				collectionOfVerbList[i]["preffix"] = ""
-				if mainWord.startswith("بر"):
-					modifiedWord = mainWord[2:]
+				if main_word.startswith("بر"):
+					modified_word = main_word[2:]
 					newMainWord = ""
-					if modifiedWord.startswith("نمی"):
+					if modified_word.startswith("نمی"):
 						collectionOfVerbList[i]["preffix"] = "برنمی"
-						newMainWord = modifiedWord[3:]
-					elif modifiedWord.startswith("می"):
+						newMainWord = modified_word[3:]
+					elif modified_word.startswith("می"):
 						collectionOfVerbList[i]["preffix"] = "برمی"
-						newMainWord = modifiedWord[2:]
-					elif modifiedWord.startswith("ن"):
+						newMainWord = modified_word[2:]
+					elif modified_word.startswith("ن"):
 						collectionOfVerbList[i]["preffix"] = "برن"
-						newMainWord = modifiedWord[1:]
-					elif modifiedWord.startswith("بی"):
+						newMainWord = modified_word[1:]
+					elif modified_word.startswith("بی"):
 						collectionOfVerbList[i]["preffix"] = "بربی"
-						newMainWord = modifiedWord[2:]
-					elif modifiedWord.startswith("ب"):
+						newMainWord = modified_word[2:]
+					elif modified_word.startswith("ب"):
 						collectionOfVerbList[i]["preffix"] = "برب"
-						newMainWord = modifiedWord[1:]
+						newMainWord = modified_word[1:]
 					else:
 						collectionOfVerbList[i]["preffix"] = "بر"
-						newMainWord = modifiedWord
+						newMainWord = modified_word
 						collectionOfVerbList2.append({
-							"word": mainWord,
+							"word": main_word,
 							"preffix": "",
 							"suffix": collectionOfVerbList[i]["suffix"]
 						})
 
 					if newMainWord != "":
 						collectionOfVerbList[i]["word"] = newMainWord
-				elif mainWord.startswith("نمی"):
+				elif main_word.startswith("نمی"):
 					collectionOfVerbList[i]["preffix"] = "نمی"
-					collectionOfVerbList[i]["word"] = mainWord[3:]
-				elif mainWord.startswith("می"):
+					collectionOfVerbList[i]["word"] = main_word[3:]
+				elif main_word.startswith("می"):
 					collectionOfVerbList[i]["preffix"] = "می"
-					collectionOfVerbList[i]["word"] = mainWord[2:]
-				elif mainWord.startswith("ن"):
+					collectionOfVerbList[i]["word"] = main_word[2:]
+				elif main_word.startswith("ن"):
 					collectionOfVerbList[i]["preffix"] = "ن"
-					collectionOfVerbList[i]["word"] = mainWord[1:]
+					collectionOfVerbList[i]["word"] = main_word[1:]
 					collectionOfVerbList2.append({
-						"word": mainWord,
+						"word": main_word,
 						"preffix": "",
 						"suffix": collectionOfVerbList[i]["suffix"]
 					})
 
-				elif mainWord.startswith("بی"):
+				elif main_word.startswith("بی"):
 					collectionOfVerbList[i]["preffix"] = "بی"
-					collectionOfVerbList[i]["word"] = mainWord[2:]
-				elif mainWord.startswith("ب"):
+					collectionOfVerbList[i]["word"] = main_word[2:]
+				elif main_word.startswith("ب"):
 					collectionOfVerbList[i]["preffix"] = "ب"
-					collectionOfVerbList[i]["word"] = mainWord[1:]
+					collectionOfVerbList[i]["word"] = main_word[1:]
 					collectionOfVerbList2.append({
-						"word": mainWord,
+						"word": main_word,
 						"preffix": "",
 						"suffix": collectionOfVerbList[i]["suffix"]
 					})
@@ -379,36 +379,36 @@ class InformalNormalizer(Normalizer):
 
 			collectionOfRealVerbList = []
 			for i in range(len(collectionOfVerbList)):
-				mainWord = collectionOfVerbList[i]["word"]
-				if mainWord.startswith("‌") or mainWord.startswith("‎"):
-					mainWord = mainWord[1:]
+				main_word = collectionOfVerbList[i]["word"]
+				if main_word.startswith("‌") or main_word.startswith("‎"):
+					main_word = main_word[1:]
 
-				if mainWord in self.pastVerbs:
-					collectionOfVerbList[i]["word"] = self.pastVerbs[mainWord]
+				if main_word in self.past_verbs:
+					collectionOfVerbList[i]["word"] = self.past_verbs[main_word]
 					collectionOfRealVerbList.append(collectionOfVerbList[i])
-				if mainWord in self.presentVerbs:
-					collectionOfVerbList[i]["word"] = self.presentVerbs[mainWord]
+				if main_word in self.present_verbs:
+					collectionOfVerbList[i]["word"] = self.present_verbs[main_word]
 					collectionOfRealVerbList.append(collectionOfVerbList[i])
 
 			for i in range(len(collectionOfRealVerbList)):
 				preffix = collectionOfRealVerbList[i]["preffix"]
 				suffix = collectionOfRealVerbList[i]["suffix"]
-				mainWord = collectionOfRealVerbList[i]["word"]
-				returnWord = preffix
+				main_word = collectionOfRealVerbList[i]["word"]
+				return_word = preffix
 				if preffix.endswith("می"):
-					returnWord += "‌"
-				returnWord += mainWord
-				returnWord += suffix
-				if mainWord != "":
-					if returnWord not in returnList:
-						returnList.append(returnWord)
+					return_word += "‌"
+				return_word += main_word
+				return_word += suffix
+				if main_word != "":
+					if return_word not in return_list:
+						return_list.append(return_word)
 
-			return returnList
+			return return_list
 
 		def append_suffix_to_word(OneCollectionOfWordAndSuffix):
-			mainWord = OneCollectionOfWordAndSuffix["word"]
-			suffixList = OneCollectionOfWordAndSuffix["suffix"]
-			adhesiveAlphabet = {
+			main_word = OneCollectionOfWordAndSuffix["word"]
+			suffix_list = OneCollectionOfWordAndSuffix["suffix"]
+			adhesive_alphabet = {
 				"ب": "ب",
 				"پ": "پ",
 				"ت": "ت",
@@ -433,72 +433,72 @@ class InformalNormalizer(Normalizer):
 				"ه": "ه",
 				"ی": "ی",
 			}
-			returnList = []
-			returnWord = mainWord
+			return_list = []
+			return_word = main_word
 			returnWord2 = None
 			returnWord3 = None
-			if len(suffixList) == 0:
-				return [returnWord]
-			if len(suffixList) > 1:
-				if suffixList[0] == "ه" and suffixList[1] == "ا":
-					suffixList[0] = "ها"
-					suffixList.remove(suffixList[1])
-				if suffixList[0] == "ه" and suffixList[1] == "است":
-					suffixList[0] = "هاست"
-					suffixList.remove(suffixList[1])
-				if suffixList[0] == "ت" and suffixList[1] == "ا":
-					suffixList[0] = "تا"
-					suffixList.remove(suffixList[1])
-			for i in range(len(suffixList)):
-				if suffixList[i] == "شون":
-					returnWord += "شان"
-				elif suffixList[i] == "تون":
-					returnWord += "تان"
-				elif suffixList[i] == "مون":
-					returnWord += "مان"
-				elif suffixList[i] == "هام":
+			if len(suffix_list) == 0:
+				return [return_word]
+			if len(suffix_list) > 1:
+				if suffix_list[0] == "ه" and suffix_list[1] == "ا":
+					suffix_list[0] = "ها"
+					suffix_list.remove(suffix_list[1])
+				if suffix_list[0] == "ه" and suffix_list[1] == "است":
+					suffix_list[0] = "هاست"
+					suffix_list.remove(suffix_list[1])
+				if suffix_list[0] == "ت" and suffix_list[1] == "ا":
+					suffix_list[0] = "تا"
+					suffix_list.remove(suffix_list[1])
+			for i in range(len(suffix_list)):
+				if suffix_list[i] == "شون":
+					return_word += "شان"
+				elif suffix_list[i] == "تون":
+					return_word += "تان"
+				elif suffix_list[i] == "مون":
+					return_word += "مان"
+				elif suffix_list[i] == "هام":
 					try:
-						var = adhesiveAlphabet[returnWord[-1]]
-						returnWord += "‌"
+						var = adhesive_alphabet[return_word[-1]]
+						return_word += "‌"
 					except:
 						None
-					returnWord += "هایم"
-				elif suffixList[i] == "ها":
+					return_word += "هایم"
+				elif suffix_list[i] == "ها":
 					try:
-						var = adhesiveAlphabet[returnWord[-1]]
-						returnWord += "‌"
+						var = adhesive_alphabet[return_word[-1]]
+						return_word += "‌"
 					except:
 						None
-					returnWord += "ها"
-				elif suffixList[i] == "ا" and suffixList[len(suffixList) - 1] == "ا" and not returnWord.endswith("ه"):
+					return_word += "ها"
+				elif suffix_list[i] == "ا" and suffix_list[len(suffix_list) - 1] == "ا" and not return_word.endswith("ه"):
 					try:
-						var = adhesiveAlphabet[returnWord[-1]]
-						returnWord += "‌"
+						var = adhesive_alphabet[return_word[-1]]
+						return_word += "‌"
 					except:
 						None
-					returnWord += "ها"
-				elif suffixList[i] == "و" and suffixList[len(suffixList) - 1] == "و":
-					returnWord2 = returnWord
+					return_word += "ها"
+				elif suffix_list[i] == "و" and suffix_list[len(suffix_list) - 1] == "و":
+					returnWord2 = return_word
 					returnWord2 += " و"
-					returnWord += " را"
+					return_word += " را"
 
-				elif suffixList[i] == "رو" and suffixList[len(suffixList) - 1] == "رو":
-					returnWord += " را"
+				elif suffix_list[i] == "رو" and suffix_list[len(suffix_list) - 1] == "رو":
+					return_word += " را"
 
-				elif suffixList[i] == "ه" and suffixList[len(suffixList) - 1] == "ه":
-					returnWord2 = returnWord
+				elif suffix_list[i] == "ه" and suffix_list[len(suffix_list) - 1] == "ه":
+					returnWord2 = return_word
 					returnWord2 += "ه"
-					returnWord3 = returnWord
+					returnWord3 = return_word
 					returnWord3 += " است"
-					returnWord += "ه است"
+					return_word += "ه است"
 				else:
-					returnWord += suffixList[i]
-			returnList.append(returnWord)
+					return_word += suffix_list[i]
+			return_list.append(return_word)
 			if returnWord2 != None:
-				returnList.append(returnWord2)
+				return_list.append(returnWord2)
 			if returnWord3 != None:
-				returnList.append(returnWord3)
-			return returnList
+				return_list.append(returnWord3)
+			return return_list
 
 		def straight_forward_result(word):
 			straightForwardDic = {
@@ -603,17 +603,17 @@ class InformalNormalizer(Normalizer):
 		verbWordsList = analyze_verb_word(word)
 		if len(verbWordsList) > 0:
 			return verbWordsList
-		possibleWords = analyze_word(word)
+		possible_words = analyze_word(word)
 
-		mainWord = word
-		if mainWord in possibleWords:
-			possibleWords.remove(mainWord)
-			possibleWords.append(mainWord)
+		main_word = word
+		if main_word in possible_words:
+			possible_words.remove(main_word)
+			possible_words.append(main_word)
 		else:
-			if len(possibleWords) == 0:
-				possibleWords.append(mainWord)
+			if len(possible_words) == 0:
+				possible_words.append(main_word)
 
-		return possibleWords
+		return possible_words
 
 	def normalize(self, text):
 		"""متن محاوره‌ای را به متن فارسی معیار تبدیل می‌کند.

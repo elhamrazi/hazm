@@ -139,8 +139,8 @@ class DadeganReader():
 								chunks[-1].append(item)
 							else:
 								j = n - 1
-								treeNode = Tree('NP', [chunks.pop(), item])
-								chunks.append(treeNode)
+								tree_node = Tree('NP', [chunks.pop(), item])
+								chunks.append(tree_node)
 							while j > node['head']:
 								leaves = chunks.pop().leaves()
 								if len(chunks) < 1:

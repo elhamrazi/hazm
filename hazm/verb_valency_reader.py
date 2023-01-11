@@ -19,7 +19,7 @@ import codecs
 from collections import namedtuple
 
 
-Verb = namedtuple('Verb', ('past_light_verb', 'present_light_verb', 'prefix', 'nonverbal_element', 'preposition', 'valency'))
+verb = namedtuple('Verb', ('past_light_verb', 'present_light_verb', 'prefix', 'nonverbal_element', 'preposition', 'valency'))
 
 
 class VerbValencyReader():
@@ -46,4 +46,4 @@ class VerbValencyReader():
 				line = line.strip().replace('-\t', '\t')
 				parts = line.split('\t')
 				if len(parts) == 6:
-					yield Verb(*parts)
+					yield verb(*parts)

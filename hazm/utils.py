@@ -16,7 +16,7 @@ default_verbs = path.join(data_path, 'verbs.dat')
 informal_words = path.join(data_path, 'iwords.dat')
 informal_verbs = path.join(data_path, 'iverbs.dat')
 
-NUMBERS = '۰۱۲۳۴۵۶۷۸۹'
+numbers = '۰۱۲۳۴۵۶۷۸۹'
 
 maketrans = lambda A, B: dict((ord(a), b) for a, b in zip(A, B))
 
