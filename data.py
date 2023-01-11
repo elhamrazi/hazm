@@ -8,9 +8,9 @@ from itertools import islice
 from nltk.tag import untag
 from sklearn.model_selection import train_test_split
 from hazm import *
-from hazm.Chunker import tree2brackets
-from hazm.PeykareReader import coarse_pos_e as peykare_coarse_pos_e
-from hazm.DadeganReader import coarse_pos_e as dadegan_coarse_pos_e
+from hazm.chunker import tree2brackets
+from hazm.peykare_reader import coarse_pos_e as peykare_coarse_pos_e
+from hazm.dadegan_reader import coarse_pos_e as dadegan_coarse_pos_e
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from gensim.models import FastText
 from gensim.utils import simple_preprocess

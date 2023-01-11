@@ -7,11 +7,11 @@
 
 from __future__ import unicode_literals
 from nltk.chunk import ChunkParserI, RegexpParser, tree2conlltags, conlltags2tree
-from .SequenceTagger import IOBTagger
+from .sequence_tagger import IOBTagger
 
 
 def tree2brackets(tree):
-	"""خروجی درختی تابع [parse()][hazm.Chunker.Chunker.parse] را به یک ساختار کروشه‌ای تبدیل می‌کند.
+	"""خروجی درختی تابع [parse()][hazm.chunker.Chunker.parse] را به یک ساختار کروشه‌ای تبدیل می‌کند.
 
 	Examples:
 		>>> chunker = Chunker(model='resources/chunker.model')

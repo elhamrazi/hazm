@@ -1,0 +1,1 @@
+::: hazm.quran_corpus_reader

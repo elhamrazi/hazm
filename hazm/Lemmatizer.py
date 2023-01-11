@@ -2,7 +2,7 @@
 
 """این ماژول شامل کلاس‌ها و توابعی برای ریشه‌یابی کلمات است. 
 
-فرق بین [Lemmatizer](./Lemmatizer.md) و [Stemmer](./Stemmer.md) این است که
+فرق بین [Lemmatizer](./lemmatizer.md) و [Stemmer](./stemmer.md) این است که
 اِستمر درکی از معنای کلمه ندارد و صرفاً براساس حذف برخی از پسوندهای ساده تلاش
 می‌کند ریشهٔ کلمه را بیابد؛ بنابراین ممکن است در ریشه‌یابیِ برخی از کلمات نتایج
 نادرستی ارائه دهد؛ اما لماتایزر براساس لیستی از کلمات مرجع به همراه ریشهٔ آن این
@@ -12,8 +12,8 @@
 
 from __future__ import unicode_literals
 from .utils import default_words, default_verbs
-from .Stemmer import Stemmer
-from .WordTokenizer import WordTokenizer
+from .stemmer import Stemmer
+from .word_tokenizer import WordTokenizer
 
 
 class Lemmatizer(object):	

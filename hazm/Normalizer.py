@@ -5,7 +5,7 @@
 
 from __future__ import unicode_literals
 import re
-from .Lemmatizer import Lemmatizer
+from .lemmatizer import Lemmatizer
 from .utils import maketrans, regex_replace
 
 

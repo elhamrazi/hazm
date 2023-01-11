@@ -1,28 +1,28 @@
 
-from .WordTokenizer import WordTokenizer
-from .SentenceTokenizer import SentenceTokenizer
-from .TokenSplitter import TokenSplitter
-from .HamshahriReader import HamshahriReader
-from .PersicaReader import PersicaReader
-from .BijankhanReader import BijankhanReader
-from .PeykareReader import PeykareReader
-from .VerbValencyReader import VerbValencyReader
-from .DadeganReader import DadeganReader
-from .TreebankReader import TreebankReader
-from .WikipediaReader import WikipediaReader
-from .SentiPersReader import SentiPersReader
-from .DegarbayanReader import DegarbayanReader
-from .QuranCorpusReader import QuranCorpusReader
-from .TNewsReader import TNewsReader
-from .MirasTextReader import MirasTextReader
-from .Normalizer import Normalizer
-from .InformalNormalizer import InformalNormalizer, InformalLemmatizer
-from .Stemmer import Stemmer
-from .Lemmatizer import Lemmatizer
-from .SequenceTagger import SequenceTagger, IOBTagger
-from .POSTagger import POSTagger, StanfordPOSTagger
-from .Chunker import Chunker, RuleBasedChunker, tree2brackets
-from .DependencyParser import DependencyParser, MaltParser, TurboParser
+from .word_tokenizer import WordTokenizer
+from .sentence_tokenizer import SentenceTokenizer
+from .token_splitter import TokenSplitter
+from .hamshahri_reader import HamshahriReader
+from .persica_reader import PersicaReader
+from .bijankhan_reader import BijankhanReader
+from .peykare_reader import PeykareReader
+from .verb_valency_reader import VerbValencyReader
+from .dadegan_reader import DadeganReader
+from .treebank_reader import TreebankReader
+from .wikipedia_reader import WikipediaReader
+from .senti_pers_reader import SentiPersReader
+from .degarbayan_reader import DegarbayanReader
+from .quran_corpus_reader import QuranCorpusReader
+from .tnews_reader import TNewsReader
+from .miras_text_reader import MirasTextReader
+from .normalizer import Normalizer
+from .informal_normalizer import InformalNormalizer, InformalLemmatizer
+from .stemmer import Stemmer
+from .lemmatizer import Lemmatizer
+from .sequence_tagger import SequenceTagger, IOBTagger
+from .pos_tagger import POSTagger, StanfordPOSTagger
+from .chunker import Chunker, RuleBasedChunker, tree2brackets
+from .dependency_parser import DependencyParser, MaltParser, TurboParser
 
 
 from .utils import words_list, stopwords_list
