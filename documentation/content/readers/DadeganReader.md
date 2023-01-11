@@ -1,1 +1,1 @@
-::: hazm.DadeganReader
+::: hazm.dadegan_reader

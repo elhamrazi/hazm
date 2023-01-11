@@ -1,1 +1,1 @@
-::: hazm.Lemmatizer
+::: hazm.lemmatizer

@@ -1,1 +1,1 @@
-::: hazm.SentiPersReader
+::: hazm.senti_pers_reader

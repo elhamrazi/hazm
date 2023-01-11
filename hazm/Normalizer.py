@@ -5,11 +5,11 @@
 
 from __future__ import unicode_literals
 import re
-from .Lemmatizer import Lemmatizer
+from .lemmatizer import lemmatizer
 from .utils import maketrans, regex_replace
 
 
-class Normalizer(object):
+class normalizer(object):
     """این کلاس شامل توابعی برای نرمال‌سازی متن است. 
 
     Args:
@@ -116,7 +116,7 @@ class Normalizer(object):
             ]
 
         if self._seperate_mi:
-            self.verbs = Lemmatizer().verbs
+            self.verbs = lemmatizer().verbs
             self.joint_mi_patterns = r'ن?می[آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی]+'
 
         if self._unicodes_replacement:
@@ -138,7 +138,7 @@ class Normalizer(object):
         """متن را نرمال‌سازی می‌کند.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.normalize('اِعلام کَرد : « زمین لرزه ای به بُزرگیِ 6 دهم ریشتر ...»')
             'اعلام کرد: «زمین‌لرزه‌ای به بزرگی ۶ دهم ریشتر…»'
 
@@ -189,7 +189,7 @@ class Normalizer(object):
         """فواصل اضافه را حذف و کشــــــــیدگی حروف را برطرف می‌کند.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.remove_extra_spaces('ســـــلام     به همه')
             'سلام به همه'
 
@@ -205,7 +205,7 @@ class Normalizer(object):
         """اِعراب را از متن حذف می‌کند.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.remove_diacritics('حَذفِ اِعراب')
             'حذف اعراب'
 
@@ -221,7 +221,7 @@ class Normalizer(object):
         """برخی از کاراکترها و نشانه‌های خاص را که کاربردی در پردازش متن ندارند حذف می‌کند.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.remove_specials_chars('پیامبر اکرم ﷺ')
             'پیامبر اکرم'
         Args:
@@ -240,7 +240,7 @@ class Normalizer(object):
         در این حالت لااقل مطمئن هستیم که آسیبی به معنای متن نمی‌رسد.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.decrease_repeated_chars('سلامممم سلامممممم سلامم')
             'سلامم سلامم سلامم'
         Args:
@@ -255,7 +255,7 @@ class Normalizer(object):
         """فاصله‌گذاری‌های اشتباه را در پسوندها و پیشوندها اصلاح می‌کند.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.affix_spacing('خانه ی پدری')
             'خانه‌ی پدری'
 
@@ -283,7 +283,7 @@ class Normalizer(object):
         """فاصله‌گذاری‌های اشتباه را در نشانه‌های سجاوندی اصلاح می‌کند. 
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.punctuation_spacing('اصلاح ( پرانتزها ) در متن .')
             'اصلاح (پرانتزها) در متن.'
 
@@ -305,7 +305,7 @@ class Normalizer(object):
         """برخی از حروف و نشانه‌ها را با حروف و نشانه‌های فارسی جایگزین می‌کند.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.persian_style('"نرمال‌سازی"')
             '«نرمال‌سازی»'
 
@@ -321,7 +321,7 @@ class Normalizer(object):
         """اعداد لاتین و علامت % را با معادل فارسی آن جایگزین می‌کند
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.persian_number('5% رشد داشته است.')
             '۵٪ رشد داشته است.'
 
@@ -356,7 +356,7 @@ class Normalizer(object):
         |ﻵ، ﻶ، ﻷ، ﻸ، ﻹ، ﻺ، ﻻ، ﻼ|لا|
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.unicodes_replacement('حضرت ﷴ صلوات الله علیه)')
             'حضرت محمد صلوات الله علیه'
 
@@ -376,7 +376,7 @@ class Normalizer(object):
         """پیشوند «می» و «نمی» را در افعال جدا کرده و با نیم‌فاصله می‌چسباند.
 
         Examples:
-            >>> normalizer = Normalizer()
+            >>> normalizer = normalizer()
             >>> normalizer.seperate_mi('نمیدانم چه میگفت')
             'نمی‌دانم چه می‌گفت'
         Args:

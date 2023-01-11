@@ -1,7 +1,7 @@
-::: hazm.InformalNormalizer
+::: hazm.informal_normalizer
     handler: python
     options:
         members:
-            - InformalNormalizer        
+            - informal_normalizer        
         show_root_heading: false
         show_source: false

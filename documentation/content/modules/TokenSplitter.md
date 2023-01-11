@@ -1,1 +1,1 @@
-::: hazm.TokenSplitter
+::: hazm.token_splitter

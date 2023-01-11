@@ -1,7 +1,7 @@
-::: hazm.SequenceTagger
+::: hazm.sequence_tagger
     handler: python
     options:
         members:
-            - SequenceTagger        
+            - sequence_tagger        
         show_root_heading: false
         show_source: false

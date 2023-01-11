@@ -2,7 +2,7 @@
 
 """این ماژول شامل کلاس‌ها و توابعی برای ریشه‌یابی کلمات است. 
 
-فرق بین [Lemmatizer](./Lemmatizer.md) و [Stemmer](./Stemmer.md) این است که
+فرق بین [lemmatizer](./lemmatizer.md) و [stemmer](./stemmer.md) این است که
 اِستمر درکی از معنای کلمه ندارد و صرفاً براساس حذف برخی از پسوندهای ساده تلاش
 می‌کند ریشهٔ کلمه را بیابد؛ بنابراین ممکن است در ریشه‌یابیِ برخی از کلمات نتایج
 نادرستی ارائه دهد؛ اما لماتایزر براساس لیستی از کلمات مرجع به همراه ریشهٔ آن این
@@ -14,7 +14,7 @@ from __future__ import unicode_literals
 from nltk.stem.api import StemmerI
 
 
-class Stemmer(StemmerI):
+class stemmer(StemmerI):
 	"""این کلاس شامل توابعی برای ریشه‌یابی کلمات است.
 	"""	
 	def __init__(self):
@@ -24,7 +24,7 @@ class Stemmer(StemmerI):
 		"""ریشهٔ کلمه را پیدا می‌کند. 
 
 		Examples:
-			>>> stemmer = Stemmer()
+			>>> stemmer = stemmer()
 			>>> stemmer.stem('کتابی')
 			'کتاب'
 

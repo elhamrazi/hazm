@@ -8,14 +8,14 @@ from itertools import islice
 from nltk.tag import untag
 from sklearn.model_selection import train_test_split
 from hazm import *
-from hazm.Chunker import tree2brackets
-from hazm.PeykareReader import coarse_pos_e as peykare_coarse_pos_e
-from hazm.DadeganReader import coarse_pos_e as dadegan_coarse_pos_e
+from hazm.chunker import tree2brackets
+from hazm.peykare_reader import coarse_pos_e as peykare_coarse_pos_e
+from hazm.dadegan_reader import coarse_pos_e as dadegan_coarse_pos_e
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from gensim.models import FastText
 from gensim.utils import simple_preprocess
 from gensim.test.utils import datapath
-from hazm import Normalizer
+from hazm import normalizer
 
 
 
@@ -30,11 +30,11 @@ def create_words_file(dic_file='resources/persian.dic', output='hazm/data/words.
 
 
 def evaluate_lemmatizer(conll_file='resources/train.conll', peykare_root='corpora/peykare'):
-	lemmatizer = Lemmatizer()
+	lemmatizer = lemmatizer()
 
 	errors = []
 	with codecs.open('resources/lemmatizer_errors.txt', 'w', 'utf8') as output:
-		dadegan = DadeganReader(conll_file)
+		dadegan = dadegan_reader(conll_file)
 		for tree in dadegan.trees():
 			for node in tree.nodelist[1:]:
 				word, lemma, pos = node['word'], node['lemma'], node['mtag']
@@ -47,7 +47,7 @@ def evaluate_lemmatizer(conll_file='resources/train.conll', peykare_root='corpor
 
 	missed = []
 	with codecs.open('resources/lemmatizer_missed.txt', 'w', 'utf8') as output:
-		peykare = PeykareReader(peykare_root)
+		peykare = peykare_reader(peykare_root)
 		for sentence in peykare.sents():
 			for word in sentence:
 				if word[1] == 'V':
@@ -61,9 +61,9 @@ def evaluate_lemmatizer(conll_file='resources/train.conll', peykare_root='corpor
 
 def evaluate_normalizer(tnews_root='corpora/tnews'):
 
-	tnews = TNewsReader(root=tnews_root)
-	normalizer = Normalizer(persian_style=False, persian_numbers=False, remove_diacritics=False, token_based=False, affix_spacing=True)
-	token_normalizer = Normalizer(persian_style=False, persian_numbers=False, remove_diacritics=False, token_based=True, affix_spacing=False)
+	tnews = tnews_reader(root=tnews_root)
+	normalizer = normalizer(persian_style=False, persian_numbers=False, remove_diacritics=False, token_based=False, affix_spacing=True)
+	token_normalizer = normalizer(persian_style=False, persian_numbers=False, remove_diacritics=False, token_based=True, affix_spacing=False)
 
 	with codecs.open('resources/normalized.txt', 'w', 'utf8') as output1, codecs.open('resources/normalized_token_based.txt', 'w', 'utf8') as output2:
 		random.seed(0)
@@ -77,9 +77,9 @@ def evaluate_normalizer(tnews_root='corpora/tnews'):
 
 
 def evaluate_informal_normalizer(sentipars_root='corpora/sentipers'):
-	sentipers = SentiPersReader(root=sentipars_root)
-	normalizer = Normalizer()
-	informal_normalizer = InformalNormalizer()
+	sentipers = senti_pers_reader(root=sentipars_root)
+	normalizer = normalizer()
+	informal_normalizer = informal_normalizer()
 
 	output = codecs.open('resources/normalized.txt', 'w', 'utf8')
 	for comments in sentipers.comments():
@@ -96,8 +96,8 @@ def evaluate_informal_normalizer(sentipars_root='corpora/sentipers'):
 
 
 def evaluate_chunker(treebank_root='corpora/treebank'):
-	treebank = TreebankReader(treebank_root, join_clitics=True, join_verb_parts=True)
-	chunker = Chunker()
+	treebank = treebank_reader(treebank_root, join_clitics=True, join_verb_parts=True)
+	chunker = chunker()
 	chunked_trees = list(treebank.chunked_trees())
 
 	print(chunker.evaluate(chunked_trees))
@@ -113,7 +113,7 @@ def evaluate_chunker(treebank_root='corpora/treebank'):
 
 def train_postagger(peykare_root='corpora/peykare', model_file='resources/postagger.model', test_size=.1, sents_limit=None, pos_map=peykare_coarse_pos_e):
 
-	tagger = POSTagger(type='crf', algo='rprop', compact=True, patterns=[
+	tagger = pos_tagger(type='crf', algo='rprop', compact=True, patterns=[
 		'*',
 
 		'u:wll=%x[-2,0]',
@@ -144,7 +144,7 @@ def train_postagger(peykare_root='corpora/peykare', model_file='resources/postag
 		'*:n?a=%t[0,0,"^\d*$"]',
 	])
 
-	peykare = PeykareReader(peykare_root, pos_map=pos_map)
+	peykare = peykare_reader(peykare_root, pos_map=pos_map)
 	train_sents, test_sents = train_test_split(list(islice(peykare.sents(), sents_limit)), test_size=test_size, random_state=0)
 
 	tagger.train(train_sents)
@@ -155,8 +155,8 @@ def train_postagger(peykare_root='corpora/peykare', model_file='resources/postag
 
 def train_chunker(train_file='corpora/train.conll', dev_file='corpora/dev.conll', test_file='corpora/test.conll', model_file='resources/chunker.model'):
 
-	tagger = POSTagger(model='resources/postagger.model')
-	chunker = Chunker(type='crf', algo='l-bfgs', compact=True, patterns=[
+	tagger = pos_tagger(model='resources/postagger.model')
+	chunker = chunker(type='crf', algo='l-bfgs', compact=True, patterns=[
 		'*',
 
 		'u:wll=%x[-2,0]',
@@ -177,7 +177,7 @@ def train_chunker(train_file='corpora/train.conll', dev_file='corpora/dev.conll'
 			for (n, word) in zip(tree.treepositions('leaves'), sentence):
 				tree[n] = word
 
-	train, test = DadeganReader(train_file), DadeganReader(test_file)
+	train, test = dadegan_reader(train_file), dadegan_reader(test_file)
 	train_trees = list(train.chunked_trees())
 	retag_trees(train_trees, train.sents())
 	chunker.train(train_trees)
@@ -190,9 +190,9 @@ def train_chunker(train_file='corpora/train.conll', dev_file='corpora/dev.conll'
 
 def train_maltparser(train_file='corpora/train.conll', dev_file='corpora/dev.conll', test_file='corpora/test.conll', model_file='langModel.mco', path_to_jar='resources/malt.jar', options_file='resources/malt-options.xml', features_file='resources/malt-features.xml', memory_min='-Xms7g', memory_max='-Xmx8g'):
 
-	lemmatizer, tagger = Lemmatizer(), POSTagger(model='resources/postagger.model')
+	lemmatizer, tagger = lemmatizer(), pos_tagger(model='resources/postagger.model')
 
-	train, test = DadeganReader(train_file), DadeganReader(test_file)
+	train, test = dadegan_reader(train_file), dadegan_reader(test_file)
 	train_data = train_file +'.data'
 	with codecs.open(train_data, 'w', 'utf8') as output:
 		for tree, sentence in zip(train.trees(), tagger.tag_sents(map(untag, train.sents()))):
@@ -216,9 +216,9 @@ def train_maltparser(train_file='corpora/train.conll', dev_file='corpora/dev.con
 
 def train_turboparser(train_file='corpora/train.conll', dev_file='corpora/dev.conll', test_file='corpora/test.conll', model_file='resources/turboparser.model'):
 
-	lemmatizer, tagger = Lemmatizer(), POSTagger(model='resources/postagger.model')
+	lemmatizer, tagger = lemmatizer(), pos_tagger(model='resources/postagger.model')
 
-	train, test = DadeganReader(train_file), DadeganReader(test_file)
+	train, test = dadegan_reader(train_file), dadegan_reader(test_file)
 	train_data = train_file +'.data'
 	with codecs.open(train_data, 'w', 'utf8') as output:
 		for tree, sentence in zip(train.trees(), tagger.tag_sents(map(untag, train.sents()))):
@@ -241,7 +241,7 @@ def train_turboparser(train_file='corpora/train.conll', dev_file='corpora/dev.co
 
 
 def train_stanford_postagger(peykare_root='corpora/peykare', path_to_model='resources/persian.tagger', path_to_jar='resources/stanford-postagger.jar', properties_file='resources/stanford-postagger.props', memory_min='-Xms1g', memory_max='-Xmx6g', test_size=.1, pos_map=peykare_coarse_pos_e):
-	peykare = PeykareReader(peykare_root, pos_map=pos_map)
+	peykare = peykare_reader(peykare_root, pos_map=pos_map)
 	train_file = 'resources/tagger_train_data.txt'
 	train, test = train_test_split(list(peykare.sents()), test_size=test_size, random_state=0)
 
@@ -261,7 +261,7 @@ class SentenceEmbeddingCorpus:
 
     def __iter__(self):
         corpus_path = datapath(self.data_path)
-        normalizer = Normalizer()
+        normalizer = normalizer()
         for i, list_of_words in enumerate(open(corpus_path)):
             yield TaggedDocument(word_tokenize(normalizer.normalize(list_of_words)), [i])
 
@@ -290,7 +290,7 @@ class WordEmbeddingCorpus:
 
     def __iter__(self):
         corpus_path = datapath(self.data_path)
-        normalizer = Normalizer()
+        normalizer = normalizer()
         for line in open(corpus_path):
             yield simple_preprocess(normalizer.normalize(line))
 

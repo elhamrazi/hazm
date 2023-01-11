@@ -1,4 +1,4 @@
-::: hazm.POSTagger.POSTagger
+::: hazm.pos_tagger.pos_tagger
 
 !!! note "برچسب‌های تولیدشده"
 

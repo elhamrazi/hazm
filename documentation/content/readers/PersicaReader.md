@@ -1,1 +1,1 @@
-::: hazm.PersicaReader
+::: hazm.persica_reader

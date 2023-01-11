@@ -1,1 +1,1 @@
-::: hazm.WordTokenizer
+::: hazm.word_tokenizer

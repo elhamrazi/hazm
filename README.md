@@ -16,14 +16,14 @@ Python library for digesting Persian text.
 
 ## Precisions
 
-The `Chunker` and `Lemmatizer` as surface analyzers have a precision of 89.9%. Also, `POSTagger` and `DependencyParser` as morphological taggers, have a precision of 97.1%.
+The `chunker` and `lemmatizer` as surface analyzers have a precision of 89.9%. Also, `pos_tagger` and `dependency_parser` as morphological taggers, have a precision of 97.1%.
 
 |**Module name**       |**Precision**   |
 |----------------------|----------------|
-| **Lemmatizer**       | 89.9%          |
-| **Chunker**          | 89.9%          |
-| **POSTagger**        | 97.1%          |
-| **DependencyParser** | 97.1%          |
+| **lemmatizer**       | 89.9%          |
+| **chunker**          | 89.9%          |
+| **pos_tagger**        | 97.1%          |
+| **dependency_parser** | 97.1%          |
 
 
 ## Usage
@@ -32,7 +32,7 @@ The `Chunker` and `Lemmatizer` as surface analyzers have a precision of 89.9%. A
 >>> from __future__ import unicode_literals
 >>> from hazm import *
 
->>> normalizer = Normalizer()
+>>> normalizer = normalizer()
 >>> normalizer.normalize('اصلاح نويسه ها و استفاده از نیم‌فاصله پردازش را آسان مي كند')
 'اصلاح نویسه‌ها و استفاده از نیم‌فاصله پردازش را آسان می‌کند'
 
@@ -41,23 +41,23 @@ The `Chunker` and `Lemmatizer` as surface analyzers have a precision of 89.9%. A
 >>> word_tokenize('ولی برای پردازش، جدا بهتر نیست؟')
 ['ولی', 'برای', 'پردازش', '،', 'جدا', 'بهتر', 'نیست', '؟']
 
->>> stemmer = Stemmer()
+>>> stemmer = stemmer()
 >>> stemmer.stem('کتاب‌ها')
 'کتاب'
->>> lemmatizer = Lemmatizer()
+>>> lemmatizer = lemmatizer()
 >>> lemmatizer.lemmatize('می‌روم')
 'رفت#رو'
 
->>> tagger = POSTagger(model='resources/postagger.model')
+>>> tagger = pos_tagger(model='resources/postagger.model')
 >>> tagger.tag(word_tokenize('ما بسیار کتاب می‌خوانیم'))
 [('ما', 'PRO'), ('بسیار', 'ADV'), ('کتاب', 'N'), ('می‌خوانیم', 'V')]
 
->>> chunker = Chunker(model='resources/chunker.model')
+>>> chunker = chunker(model='resources/chunker.model')
 >>> tagged = tagger.tag(word_tokenize('کتاب خواندن را دوست داریم'))
 >>> tree2brackets(chunker.parse(tagged))
 '[کتاب خواندن NP] [را POSTP] [دوست داریم VP]'
 
->>> parser = DependencyParser(tagger=tagger, lemmatizer=lemmatizer)
+>>> parser = dependency_parser(tagger=tagger, lemmatizer=lemmatizer)
 >>> parser.parse(word_tokenize('زنگ‌ها برای که به صدا درمی‌آید؟'))
 <DependencyGraph with 8 nodes>
 

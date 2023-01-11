@@ -1,1 +1,1 @@
-::: hazm.TreebankReader
+::: hazm.treebank_reader

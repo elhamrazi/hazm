@@ -1,1 +1,1 @@
-::: hazm.VerbValencyReader
+::: hazm.verb_valency_reader
