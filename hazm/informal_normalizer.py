@@ -162,7 +162,7 @@ class InformalNormalizer(Normalizer):
 			(List[str]): اشکال نرمالایزشدهٔ کلمه.
 		"""
 
-		def analyzeWord(word):
+		def analyze_word(word):
 			endWordsList = ["هاست", "هایی", "هایم", "ترین", "ایی", "انی", "شان", "شون", "است", "تان", "تون", "مان", "مون",
 									  "هام", "هاش", "های", "طور", "ها", "تر", "ئی", "یی", "یم", "ام", "ای", "ان", "هم", "رو", "یت", "ه", "ی", "ش", "و", "ا", "ت", "م"]
 
@@ -243,7 +243,7 @@ class InformalNormalizer(Normalizer):
 									)
 
 			for i in range(len(collectionOfWordAndSuffix)):
-				newPossibelWordList = appendSuffixToWord(collectionOfWordAndSuffix[i])
+				newPossibelWordList = append_suffix_to_word(collectionOfWordAndSuffix[i])
 				for j in range(len(newPossibelWordList)):
 					newPossibelWord = newPossibelWordList[j]
 					if newPossibelWord not in returnList:
@@ -251,7 +251,7 @@ class InformalNormalizer(Normalizer):
 
 			return returnList
 
-		def analyzeVerbWord(word):
+		def analyze_verb_word(word):
 
 			if word in self.pastVerbs:
 				word = self.pastVerbs[word]
@@ -405,7 +405,7 @@ class InformalNormalizer(Normalizer):
 
 			return returnList
 
-		def appendSuffixToWord(OneCollectionOfWordAndSuffix):
+		def append_suffix_to_word(OneCollectionOfWordAndSuffix):
 			mainWord = OneCollectionOfWordAndSuffix["word"]
 			suffixList = OneCollectionOfWordAndSuffix["suffix"]
 			adhesiveAlphabet = {
@@ -500,7 +500,7 @@ class InformalNormalizer(Normalizer):
 				returnList.append(returnWord3)
 			return returnList
 
-		def straightForwardResult(word):
+		def straight_forward_result(word):
 			straightForwardDic = {
 				"ب": ["به"],
 				"ک": ["که"],
@@ -596,14 +596,14 @@ class InformalNormalizer(Normalizer):
 				return []
 
 
-		straightForwardWords = straightForwardResult(word)
+		straightForwardWords = straight_forward_result(word)
 		if len(straightForwardWords) > 0:
 			return straightForwardWords
 
-		verbWordsList = analyzeVerbWord(word)
+		verbWordsList = analyze_verb_word(word)
 		if len(verbWordsList) > 0:
 			return verbWordsList
-		possibleWords = analyzeWord(word)
+		possibleWords = analyze_word(word)
 
 		mainWord = word
 		if mainWord in possibleWords:
