@@ -1,4 +1,3 @@
-
 from .word_tokenizer import WordTokenizer
 from .sentence_tokenizer import SentenceTokenizer
 from .token_splitter import TokenSplitter
@@ -29,12 +28,12 @@ from .utils import words_list, stopwords_list
 
 
 def sent_tokenize(text):
-	if not hasattr(sent_tokenize, 'tokenizer'):
-		sent_tokenize.tokenizer = SentenceTokenizer()
-	return sent_tokenize.tokenizer.tokenize(text)
+    if not hasattr(sent_tokenize, "tokenizer"):
+        sent_tokenize.tokenizer = SentenceTokenizer()
+    return sent_tokenize.tokenizer.tokenize(text)
 
 
 def word_tokenize(sentence):
-	if not hasattr(word_tokenize, 'tokenizer'):
-		word_tokenize.tokenizer = WordTokenizer()
-	return word_tokenize.tokenizer.tokenize(sentence)
+    if not hasattr(word_tokenize, "tokenizer"):
+        word_tokenize.tokenizer = WordTokenizer()
+    return word_tokenize.tokenizer.tokenize(sentence)

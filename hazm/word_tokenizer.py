@@ -21,7 +21,7 @@ class WordTokenizer(TokenizerI):
                     این حال شما می‌توانید فایل موردنظر خود را معرفی کنید. برای آگاهی از
                     ساختار این فایل به فایل پیش‌فرض مراجعه کنید.
 
-            verbs_file (str, optional): مسیر فایل حاوی افعال. 
+            verbs_file (str, optional): مسیر فایل حاوی افعال.
                     هضم به صورت پیش‌فرض فایلی برای این منظور در نظر گرفته است؛ با
                     این حال شما می‌توانید فایل موردنظر خود را معرفی کنید. برای آگاهی از
                     ساختار این فایل به فایل پیش‌فرض مراجعه کنید.
@@ -34,7 +34,17 @@ class WordTokenizer(TokenizerI):
             replace_hashtags (bool, optional): اگر `True` باشد علامت `#` را با `TAG` جایگزین می‌کند.
     """
 
-    def __init__(self, words_file=default_words, verbs_file=default_verbs, separate_emoji=False, replace_links=False, replace_IDs=False, replace_emails=False, replace_numbers=False, replace_hashtags=False):
+    def __init__(
+        self,
+        words_file=default_words,
+        verbs_file=default_verbs,
+        separate_emoji=False,
+        replace_links=False,
+        replace_IDs=False,
+        replace_emails=False,
+        replace_numbers=False,
+        replace_hashtags=False,
+    ):
         self.separate_emoji = separate_emoji
         self.replace_links = replace_links
         self.replace_IDs = replace_IDs
@@ -43,44 +53,52 @@ class WordTokenizer(TokenizerI):
         self.replace_hashtags = replace_hashtags
 
         self.pattern = re.compile(
-            r'([؟!\?]+|\d[\d\.:\/\\]+\d|[:\.،؛»\]\)\}"«\[\(\{])')  # TODO \d
-        self.emoji_pattern = re.compile(u"["
-                                        u"\U0001F600-\U0001F64F"  # emoticons
-                                        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-                                        u"\U0001F4CC\U0001F4CD"  # other emojis
-                                        "]", flags=re.UNICODE)
-        self.emoji_repl = r'\g<0> '
-        self.id_pattern = re.compile(r'(?<![\w\._])(@[\w_]+)')
-        self.id_repl = r' ID '
+            r'([؟!\?]+|\d[\d\.:\/\\]+\d|[:\.،؛»\]\)\}"«\[\(\{])'
+        )  # TODO \d
+        self.emoji_pattern = re.compile(
+            "["
+            "\U0001F600-\U0001F64F"  # emoticons
+            "\U0001F300-\U0001F5FF"  # symbols & pictographs
+            "\U0001F4CC\U0001F4CD"  # other emojis
+            "]",
+            flags=re.UNICODE,
+        )
+        self.emoji_repl = r"\g<0> "
+        self.id_pattern = re.compile(r"(?<![\w\._])(@[\w_]+)")
+        self.id_repl = r" ID "
         self.link_pattern = re.compile(
-            r'((https?|ftp):\/\/)?(?<!@)(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})[-\w@:%_\.\+\/~#?=&]*')
-        self.link_repl = r' LINK '
+            r"((https?|ftp):\/\/)?(?<!@)(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})[-\w@:%_\.\+\/~#?=&]*"
+        )
+        self.link_repl = r" LINK "
         self.email_pattern = re.compile(
-            r'[a-zA-Z0-9\._\+-]+@([a-zA-Z0-9-]+\.)+[A-Za-z]{2,}')
-        self.email_repl = r' EMAIL '
+            r"[a-zA-Z0-9\._\+-]+@([a-zA-Z0-9-]+\.)+[A-Za-z]{2,}"
+        )
+        self.email_repl = r" EMAIL "
 
         # '٫' is the decimal separator and '٬' is the thousands separator
         self.number_int_pattern = re.compile(
-            r'\b(?<![\d۰-۹][\.٫٬,])([\d۰-۹]+)(?![\.٫٬,][\d۰-۹])\b')
-        self.number_int_repl = lambda m: ' NUM' + str(len(m.group(1))) + ' '
+            r"\b(?<![\d۰-۹][\.٫٬,])([\d۰-۹]+)(?![\.٫٬,][\d۰-۹])\b"
+        )
+        self.number_int_repl = lambda m: " NUM" + str(len(m.group(1))) + " "
         self.number_float_pattern = re.compile(
-            r'\b(?<!\.)([\d۰-۹,٬]+[\.٫٬]{1}[\d۰-۹]+)\b(?!\.)')
-        self.number_float_repl = r' NUMF '
+            r"\b(?<!\.)([\d۰-۹,٬]+[\.٫٬]{1}[\d۰-۹]+)\b(?!\.)"
+        )
+        self.number_float_repl = r" NUMF "
 
-        self.hashtag_pattern = re.compile(r'\#([\S]+)')
+        self.hashtag_pattern = re.compile(r"\#([\S]+)")
         # NOTE: python2.7 does not support unicodes with \w
 
-        self.hashtag_repl = lambda m: 'TAG ' + m.group(1).replace('_', ' ')
+        self.hashtag_repl = lambda m: "TAG " + m.group(1).replace("_", " ")
 
-        self.words = {item[0]: (item[1], item[2])
-                      for item in words_list(words_file)}
+        self.words = {item[0]: (item[1], item[2]) for item in words_list(words_file)}
 
-        with codecs.open(verbs_file, encoding='utf8') as verbs_file:
-            self.verbs = list(reversed([verb.strip()
-                              for verb in verbs_file if verb]))
-            self.bons = set([verb.split('#')[0] for verb in self.verbs])
-            self.verbe = set([bon + 'ه' for bon in self.bons] +
-                             ['ن' + bon + 'ه' for bon in self.bons])
+        with codecs.open(verbs_file, encoding="utf8") as verbs_file:
+            self.verbs = list(reversed([verb.strip() for verb in verbs_file if verb]))
+            self.bons = set([verb.split("#")[0] for verb in self.verbs])
+            self.verbe = set(
+                [bon + "ه" for bon in self.bons]
+                + ["ن" + bon + "ه" for bon in self.bons]
+            )
 
     def tokenize(self, text):
         """توکن‌های متن را استخراج می‌کند.
@@ -134,8 +152,7 @@ class WordTokenizer(TokenizerI):
             text = self.number_int_pattern.sub(self.number_int_repl, text)
             text = self.number_float_pattern.sub(self.number_float_repl, text)
 
-        text = self.pattern.sub(
-            r' \1 ', text.replace('\n', ' ').replace('\t', ' '))
+        text = self.pattern.sub(r" \1 ", text.replace("\n", " ").replace("\t", " "))
 
-        tokens = [word for word in text.split(' ') if word]
+        tokens = [word for word in text.split(" ") if word]
         return tokens
